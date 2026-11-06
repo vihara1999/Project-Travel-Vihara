@@ -7,7 +7,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.7; color: #333333; background-color: #f4f7f9; }
-    
+
     .hero {
       background-image: linear-gradient(rgba(0, 119, 182, 0.5), rgba(0, 180, 216, 0.5)), url('images/fuji.jpg');
       background-size: cover; background-position: center;
@@ -22,24 +22,77 @@
     .section-title::after { content: ""; display: block; width: 50px; height: 3px; background: #00b4d8; margin: 10px auto 0; border-radius: 2px; }
 
     .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
-    
-    /* कार्डलाई लिङ्क जस्तो बनाउने */
+
+    /* カードをリンクのようにする */
     .spot-card {
       background: #ffffff; border-radius: 12px; overflow: hidden;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); display: flex; flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; text-decoration: none; color: inherit;
     }
     .spot-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
-    
+
     .spot-tag { background: #0077b6; color: #ffffff; font-size: 0.8rem; font-weight: bold; padding: 4px 12px; align-self: flex-start; margin: 16px 0 0 16px; border-radius: 20px; }
-    .spot-body { padding: 16px 20px 24px; flex-grow: 1; }
+    .spot-body { padding: 16px 20px 20px; flex-grow: 1; display: flex; flex-direction: column; }
     .spot-title { font-size: 1.3rem; margin-bottom: 10px; color: #1a1a1a; }
     .spot-text { font-size: 0.95rem; color: #555555; }
+
+    /* 「Clickして詳細へ」を各カードの右下に配置 */
+    .spot-more {
+      margin-top: auto; padding-top: 14px; align-self: flex-end;
+      font-size: 0.9rem; font-weight: bold; color: #0077b6;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .spot-card:hover .spot-more { color: #00b4d8; transform: translateX(4px); }
 
     .info-box { background: #e8f4f8; border-left: 4px solid #0077b6; padding: 20px; border-radius: 4px; margin-bottom: 40px; }
     .info-box h3 { font-size: 1.1rem; color: #0077b6; margin-bottom: 8px; }
     .info-list { list-style: none; font-size: 0.95rem; }
     .info-list li { margin-bottom: 6px; }
+
+    /* ===== 参加者の感想 ===== */
+    .feedback-lead { text-align: center; margin-bottom: 25px; color: #666; }
+
+    .rating-summary {
+      background: #ffffff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      padding: 28px; display: flex; flex-wrap: wrap; gap: 30px; align-items: center; margin-bottom: 30px;
+    }
+    .rating-score { text-align: center; flex: 0 0 200px; }
+    .rating-number { font-size: 3.2rem; font-weight: 700; color: #0077b6; line-height: 1.1; }
+    .rating-stars { color: #f5a623; font-size: 1.3rem; letter-spacing: 2px; }
+    .rating-count { font-size: 0.85rem; color: #777; margin-top: 4px; }
+    .rating-bars { flex: 1 1 280px; }
+    .bar-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; margin-bottom: 6px; }
+    .bar-label { width: 36px; color: #555; }
+    .bar-track { flex: 1; height: 10px; background: #e5eaee; border-radius: 6px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, #00b4d8, #0077b6); border-radius: 6px; }
+    .bar-percent { width: 40px; text-align: right; color: #777; }
+
+    .year-block { margin-bottom: 32px; }
+    .year-heading {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+      background: #0077b6; color: #ffffff; padding: 12px 20px; border-radius: 10px 10px 0 0;
+    }
+    .year-heading h3 { font-size: 1.2rem; }
+    .year-avg { margin-left: auto; font-size: 0.95rem; }
+    .year-avg .stars { color: #ffd166; letter-spacing: 1px; }
+    .review-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;
+      background: #ffffff; padding: 20px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+    .review-card { border: 1px solid #e3ebf0; border-radius: 10px; padding: 16px; background: #fbfdfe; display: flex; flex-direction: column; }
+    .review-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .avatar {
+      width: 42px; height: 42px; border-radius: 50%; background: #00b4d8; color: #ffffff;
+      display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;
+    }
+    .reviewer-name { font-weight: bold; font-size: 0.95rem; color: #1a1a1a; }
+    .reviewer-meta { font-size: 0.78rem; color: #777; }
+    .review-stars { color: #f5a623; letter-spacing: 2px; margin-bottom: 4px; }
+    .review-stars .off { color: #d5dbe0; }
+    .review-title { font-weight: bold; font-size: 0.95rem; margin-bottom: 4px; color: #0077b6; }
+    .review-text { font-size: 0.9rem; color: #555; flex-grow: 1; }
+    .review-foot { margin-top: 10px; font-size: 0.78rem; color: #888; text-align: right; }
+    .feedback-note { text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px; }
 
     footer { text-align: center; padding: 25px 20px; background: #1e293b; color: #94a3b8; font-size: 0.85rem; }
   </style>
@@ -55,9 +108,9 @@
   <div class="container">
 
     <section class="info-box">
-      <h3>📅 旅行概要</h3>
+      <h3>📅 ご旅行概要</h3>
       <ul class="info-list">
-        <li><strong>日程：</strong>毎年9月10月 日帰り</li>
+        <li><strong>日程：</strong>令和8年9月12日（土） 日帰り</li>
         <li><strong>方面：</strong>静岡県 清水・久能山エリア</li>
         <li><strong>集合・出発：</strong>学校前 8:45配車 / 9:00出発</li>
         <li><strong>解散予定：</strong>学校前 19:00着</li>
@@ -67,52 +120,174 @@
     <section>
       <h2 class="section-title">旅のハイライト・見どころ</h2>
       <p style="text-align: center; margin-bottom: 25px; color: #666;">※各スポットをクリックすると、詳細ページが開きます。</p>
-      
+
       <div class="spots-grid">
 
-        <!-- スポット 1 (detail1.html खुल्ने) -->
+        <!-- スポット 1 -->
         <a href="detail1.html" class="spot-card">
           <span class="spot-tag">グルメ & ショッピング</span>
           <div class="spot-body">
             <img src="images/image/image1.jpg" alt="はとばキッチン" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
             <h3 class="spot-title">エスパルスドリームプラザ「はとばキッチン」</h3>
             <p class="spot-text">清水港のヨットハーバーを目の前に望む複合商業施設。大人気のビュッフェランチを堪能します。</p>
-              <br>Clickして詳細へ ➔
+            <span class="spot-more">Clickして詳細へ ➔</span>
           </div>
         </a>
 
-        <!-- スポット 2 (detail2.html खुल्ने) -->
+        <!-- スポット 2 -->
         <a href="detail2.html" class="spot-card">
           <span class="spot-tag">絶景クルーズ</span>
           <div class="spot-body">
             <img src="images/image/image2.jpg" alt="駿河湾クルーズ" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
-            <h3 class="spot-title">駿河湾クルーズ<br>（清水港）</h3>
+            <h3 class="spot-title">駿河湾クルーズ（清水港）</h3>
             <p class="spot-text">潮風を感じながら約40分間の船旅へ。富士山のパノラマビューを満喫。</p>
-             <br>Clickして詳細へ ➔
+            <span class="spot-more">Clickして詳細へ ➔</span>
           </div>
         </a>
 
-        <!-- スポット 3 (detail3.html खुल्ने) -->
+        <!-- スポット 3 -->
         <a href="detail3.html" class="spot-card">
           <span class="spot-tag">世界文化遺産</span>
           <div class="spot-body">
             <img src="images/image/image3.jpg" alt="三保の松原" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
-            <h3 class="spot-title">三保の松原</h3>
-            <p class="spot-text">青い海と緑の松林、富士山の絶景名所。「羽衣伝説」の舞台を散策。</p><br>Clickして詳細へ ➔
+            <h3 class="spot-title">三保の松原（みほのまつばら）</h3>
+            <p class="spot-text">青い海と緑の松林、富士山の絶景名所。「羽衣伝説」の舞台を散策。</p>
+            <span class="spot-more">Clickして詳細へ ➔</span>
           </div>
         </a>
 
-        <!-- スポット 4 (detail4.html खुल्ने) -->
+        <!-- スポット 4 -->
         <a href="detail4.html" class="spot-card">
           <span class="spot-tag">国宝・パワースポット</span>
           <div class="spot-body">
             <img src="images/image/image4.jpg" alt="久能山東照宮" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
-            <h3 class="spot-title">久能山東照宮</h3>
-            <p class="spot-text">徳川家康公が眠る国宝の社殿。歴史とパワーあふれる名所を見学。</p><p><br>Clickして詳細へ ➔</p>
+            <h3 class="spot-title">久能山東照宮（くのうざんとうしょうぐう）</h3>
+            <p class="spot-text">徳川家康公が眠る国宝の社殿。歴史とパワーあふれる名所を見学。</p>
+            <span class="spot-more">Clickして詳細へ ➔</span>
           </div>
         </a>
 
       </div>
+    </section>
+
+    <!-- ===== 参加者の感想 ===== -->
+    <section>
+      <h2 class="section-title">参加者の感想</h2>
+      <p class="feedback-lead">2024年・2025年・2026年度入学の学生の皆さんから届いた声をご紹介します。</p>
+
+      <!-- 総合評価 -->
+      <div class="rating-summary">
+        <div class="rating-score">
+          <div class="rating-number">4.7</div>
+          <div class="rating-stars">★★★★★</div>
+          <div class="rating-count">アンケート回答 9件（抜粋）</div>
+        </div>
+        <div class="rating-bars">
+          <div class="bar-row"><span class="bar-label">★5</span><div class="bar-track"><div class="bar-fill" style="width:67%"></div></div><span class="bar-percent">67%</span></div>
+          <div class="bar-row"><span class="bar-label">★4</span><div class="bar-track"><div class="bar-fill" style="width:33%"></div></div><span class="bar-percent">33%</span></div>
+          <div class="bar-row"><span class="bar-label">★3</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-percent">0%</span></div>
+          <div class="bar-row"><span class="bar-label">★2</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-percent">0%</span></div>
+          <div class="bar-row"><span class="bar-label">★1</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-percent">0%</span></div>
+        </div>
+      </div>
+
+      <!-- 2026年度入学 -->
+      <div class="year-block">
+        <div class="year-heading">
+          <h3>🌸 2026年度入学生</h3>
+          <span>（1年生）</span>
+          <span class="year-avg">平均評価 <span class="stars">★★★★★</span> 5.0</span>
+        </div>
+        <div class="review-grid">
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">A</div><div><div class="reviewer-name">A.Sさん</div><div class="reviewer-meta">2026年度入学・パティシエ科</div></div></div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">入学後初めての思い出になりました</div>
+            <p class="review-text">クラスの仲間と一緒に過ごせて、すぐに打ち解けられました。はとばキッチンのビュッフェはスイーツの種類も多く、盛り付けの勉強にもなりました。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">B</div><div><div class="reviewer-name">B.Kさん</div><div class="reviewer-meta">2026年度入学・コンピュータ科</div></div></div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">クルーズから見る富士山に感動</div>
+            <p class="review-text">天気にも恵まれ、船の上から見た富士山は忘れられません。写真もたくさん撮れて、友達との距離が縮まりました。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">C</div><div><div class="reviewer-name">C.Mさん</div><div class="reviewer-meta">2026年度入学・パティシエ科</div></div></div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">日本の歴史を身近に感じました</div>
+            <p class="review-text">久能山東照宮の豪華な社殿に驚きました。ガイドさんの説明が分かりやすく、歴史を学ぶ良い機会になりました。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2025年度入学 -->
+      <div class="year-block">
+        <div class="year-heading">
+          <h3>🍂 2025年度入学生</h3>
+          <span>（2年生）</span>
+          <span class="year-avg">平均評価 <span class="stars">★★★★★</span> 4.7</span>
+        </div>
+        <div class="review-grid">
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">D</div><div><div class="reviewer-name">D.Tさん</div><div class="reviewer-meta">2025年度入学・コンピュータ科</div></div></div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">後輩との交流が楽しかった</div>
+            <p class="review-text">新入生と一緒に回ることで、学年を越えた交流ができました。バスの中も楽しく、移動時間も退屈しませんでした。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">E</div><div><div class="reviewer-name">E.Hさん</div><div class="reviewer-meta">2025年度入学・パティシエ科</div></div></div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">三保の松原の景色が最高</div>
+            <p class="review-text">羽衣伝説の説明を聞きながら歩く松原は、とても気持ちよかったです。海と松と富士山の組み合わせは写真映えも抜群でした。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">F</div><div><div class="reviewer-name">F.Yさん</div><div class="reviewer-meta">2025年度入学・コンピュータ科</div></div></div>
+            <div class="review-stars">★★★★<span class="off">★</span></div>
+            <div class="review-title">充実していましたが少し駆け足でした</div>
+            <p class="review-text">どの場所も素晴らしかったので、もう少し自由時間があると嬉しいです。それでも一日を通して大満足の研修旅行でした。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2024年度入学 -->
+      <div class="year-block">
+        <div class="year-heading">
+          <h3>🍁 2024年度入学生</h3>
+          <span>（3年生）</span>
+          <span class="year-avg">平均評価 <span class="stars">★★★★★</span> 4.3</span>
+        </div>
+        <div class="review-grid">
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">G</div><div><div class="reviewer-name">G.Nさん</div><div class="reviewer-meta">2024年度入学・パティシエ科</div></div></div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">学生生活の良い締めくくり</div>
+            <p class="review-text">学校行事として最後の研修旅行になりました。クラスメイトと笑い合えた一日は、卒業後も大切な思い出になると思います。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">H</div><div><div class="reviewer-name">H.Rさん</div><div class="reviewer-meta">2024年度入学・コンピュータ科</div></div></div>
+            <div class="review-stars">★★★★<span class="off">★</span></div>
+            <div class="review-title">運営がスムーズで安心</div>
+            <p class="review-text">集合から解散まで時間管理がしっかりしていて安心でした。バス移動が長めなので、車内レクリエーションがあるとさらに良いと思います。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+          <div class="review-card">
+            <div class="review-head"><div class="avatar">I</div><div><div class="reviewer-name">I.Oさん</div><div class="reviewer-meta">2024年度入学・パティシエ科</div></div></div>
+            <div class="review-stars">★★★★<span class="off">★</span></div>
+            <div class="review-title">ランチが特に印象的</div>
+            <p class="review-text">ビュッフェのデザートコーナーが充実していて、プロの盛り付けや色使いを間近で見られたのが勉強になりました。</p>
+            <div class="review-foot">令和8年9月12日 参加</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="feedback-note">※掲載の感想は参加者アンケートからの抜粋です（個人名はイニシャル表記）。</p>
     </section>
 
   </div>
